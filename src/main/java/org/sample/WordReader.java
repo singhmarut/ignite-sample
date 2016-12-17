@@ -37,7 +37,12 @@ public class WordReader {
     @Autowired
     IgniteSpringBean ignite;
 
+
+    @Autowired
+    RedisTemplate<String, Long> redisTemplate;
+
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    ExecutorService redisCounter = Executors.newFixedThreadPool(4);
     IgniteAtomicLong inventory;
 
     @Value("${ignite.node.mode.client}")
@@ -55,12 +60,32 @@ public class WordReader {
         executor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                System.out.println("Incremented value: " + inventory.get());
+               // System.out.println("Incremented value: " + inventory.get());
             }
         }, 0, 5, TimeUnit.SECONDS);
+
+        redisTemplate.opsForHash().put("a","c",0L);
+
+        /*for (int i = 1; i < 5; i ++){
+            int counter = (i % 2 == 0) ? 1 : -1;
+            redisCounter.submit(new Runnable() {
+                private volatile long a = 0L;
+                @Override
+                public void run() {
+                    while (a < 1000){
+                        redisTemplate.opsForHash().increment("a","c",counter);
+                        a++;
+                    }
+                }
+            });
+        }*/
     }
 
     public void addData(String word){
         inventory.incrementAndGet();
+    }
+
+    public void addCounter(){
+
     }
 }
