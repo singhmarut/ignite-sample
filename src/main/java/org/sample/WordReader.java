@@ -68,7 +68,7 @@ public class WordReader {
 
         /*for (int i = 1; i < 5; i ++){
             int counter = (i % 2 == 0) ? 1 : -1;
-            redisCounter.submit(new Runnable() {
+            pageSimulator.submit(new Runnable() {
                 private volatile long a = 0L;
                 @Override
                 public void run() {

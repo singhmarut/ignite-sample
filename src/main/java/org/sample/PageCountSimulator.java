@@ -3,7 +3,6 @@ package org.sample;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -15,8 +14,9 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Service
 public class PageCountSimulator {
-   // ExecutorService redisCounter = Executors.newFixedThreadPool(1);
-    ScheduledExecutorService redisCounter = Executors.newScheduledThreadPool(1);
+   // ExecutorService pageSimulator = Executors.newFixedThreadPool(1);
+    ScheduledExecutorService pageSimulator = Executors.newScheduledThreadPool(1);
+    //60 buckets for each second
     List<AtomicLong> countBuckets = new ArrayList<>(60);
     long start = 0;
     long totalCount = 0L;
@@ -32,14 +32,14 @@ public class PageCountSimulator {
     public void simulate(){
         start = Instant.ofEpochSecond(0L).until(Instant.now(),
                 ChronoUnit.SECONDS);
-
-        redisCounter.scheduleAtFixedRate(new Runnable() {
+        //Every 10 millisecond create an item
+        pageSimulator.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 Item item = new Item();
                 addItem(item);
             }
-        }, 0, 100, TimeUnit.MILLISECONDS);
+        }, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     public synchronized void addItem(Item item){
@@ -54,8 +54,7 @@ public class PageCountSimulator {
             }
             //Add a new bucket by making count to 0
             countBuckets.get(0).set(0L);
-            start = Instant.ofEpochSecond(0L).until(Instant.now(),
-                    ChronoUnit.SECONDS);
+            start = getStartTime();
         }
         AtomicLong currentBucket = countBuckets.get(0);
         currentBucket.set(currentBucket.longValue() + 1);
@@ -68,6 +67,11 @@ public class PageCountSimulator {
         System.out.println("totalCount: " + totalCount);
     }
 
+    long getStartTime(){
+        return Instant.ofEpochSecond(0L).until(Instant.now(),
+                ChronoUnit.SECONDS);
+    }
+
     void moveBucket(int curIndex, int places){
         int newIndex = curIndex + places;
         if (newIndex < countBuckets.size()){
@@ -77,6 +81,7 @@ public class PageCountSimulator {
     }
 
     static class Item{
+        //Time when the item was created
         long time = Instant.ofEpochSecond(0L).until(Instant.now(),
                 ChronoUnit.SECONDS);
 
@@ -87,9 +92,5 @@ public class PageCountSimulator {
         public void setTime(long time) {
             this.time = time;
         }
-    }
-
-    static class PageCounter{
-
     }
 }
