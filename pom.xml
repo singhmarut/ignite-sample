@@ -3,6 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <modules>
+        <module>akka-sample</module>
+        <module>page-rank</module>
+        <module>kinesis-sample</module>
+        <module>ignite-sample</module>
+    </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -69,6 +76,13 @@
             <artifactId>neo4j-java-driver</artifactId>
             <version>1.1.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.amazonaws/amazon-kinesis-client -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>amazon-kinesis-client</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
 
         <!-- <dependency>
              <groupId>org.apache.ignite</groupId>

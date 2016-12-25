@@ -1,24 +1,12 @@
-package org.sample;
+package com.marut.ignite;
 
 import org.apache.ignite.*;
-import org.apache.ignite.stream.StreamTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.connection.Message;
-import org.springframework.data.redis.connection.MessageListener;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnection;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -42,7 +30,8 @@ public class WordReader {
     RedisTemplate<String, Long> redisTemplate;
 
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-    ExecutorService redisCounter = Executors.newFixedThreadPool(4);
+    ExecutorService redisAddSimulator = Executors.newFixedThreadPool(4);
+    ExecutorService redisNegativeSimulator = Executors.newFixedThreadPool(4);
     IgniteAtomicLong inventory;
 
     @Value("${ignite.node.mode.client}")
@@ -65,10 +54,12 @@ public class WordReader {
         }, 0, 5, TimeUnit.SECONDS);
 
         redisTemplate.opsForHash().put("a","c",0L);
+    }
 
-        /*for (int i = 1; i < 5; i ++){
+    void simulatePageStream(){
+        for (int i = 1; i < 5; i ++){
             int counter = (i % 2 == 0) ? 1 : -1;
-            pageSimulator.submit(new Runnable() {
+            redisAddSimulator.submit(new Runnable() {
                 private volatile long a = 0L;
                 @Override
                 public void run() {
@@ -78,7 +69,20 @@ public class WordReader {
                     }
                 }
             });
-        }*/
+        }
+
+        for (int i = 1; i < 5; i ++){
+            redisAddSimulator.submit(new Runnable() {
+                private volatile long a = 0L;
+                @Override
+                public void run() {
+                    while (a < 1000){
+                        redisTemplate.opsForHash().increment("a","c",-1);
+                        a++;
+                    }
+                }
+            });
+        }
     }
 
     public void addData(String word){

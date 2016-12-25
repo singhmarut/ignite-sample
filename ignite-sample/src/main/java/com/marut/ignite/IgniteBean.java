@@ -1,4 +1,4 @@
-package org.sample;
+package com.marut.ignite;
 
 /**
  * Created by marutsingh on 12/15/16.

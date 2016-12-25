@@ -1,4 +1,4 @@
-package org.sample;
+package com.marut.pagecount;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Created by marutsingh on 12/17/16.
  */
-@Service
 public class PageCountSimulator {
    // ExecutorService pageSimulator = Executors.newFixedThreadPool(1);
     ScheduledExecutorService pageSimulator = Executors.newScheduledThreadPool(1);
@@ -20,14 +19,6 @@ public class PageCountSimulator {
     List<AtomicLong> countBuckets = new ArrayList<>(60);
     long start = 0;
     long totalCount = 0L;
-
-    @PostConstruct
-    void  init(){
-        for (int i = 0; i < 60; i++){
-            countBuckets.add(new AtomicLong());
-        }
-        simulate();
-    }
 
     public void simulate(){
         start = Instant.ofEpochSecond(0L).until(Instant.now(),
@@ -43,7 +34,8 @@ public class PageCountSimulator {
     }
 
     public synchronized void addItem(Item item){
-        long diff = item.getTime() - start;
+        //1 second
+        long diff = (item.getTime() - start);
         System.out.println();
         System.out.println(" diff is: " + diff);
         //We need to find the right bucket where events have to go
