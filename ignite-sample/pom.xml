@@ -12,6 +12,7 @@
     <groupId>com.marut</groupId>
     <artifactId>ignite-sample</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <dependencies>
 
-
+    </dependencies>
 </project>

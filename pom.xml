@@ -4,31 +4,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <modules>
-        <module>akka-sample</module>
-        <module>page-rank</module>
-        <module>kinesis-sample</module>
-        <module>ignite-sample</module>
-    </modules>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.2.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
     <groupId>com.marut</groupId>
     <artifactId>ignitesample</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <ignite.version>1.8.0</ignite.version>
     </properties>
-
+    <modules>
+        <module>akka-sample</module>
+        <module>page-rank</module>
+        <module>kinesis-sample</module>
+        <module>ignite-sample</module>
+        <module>cassandra-sample</module>
+    </modules>
+  <!--  <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.2.RELEASE</version>
+        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;
+    </parent>-->
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.apache.ignite/ignite-core -->
         <dependency>
             <groupId>org.apache.ignite</groupId>
@@ -82,25 +77,6 @@
             <artifactId>amazon-kinesis-client</artifactId>
             <version>1.6.1</version>
         </dependency>
-
-
-        <!-- <dependency>
-             <groupId>org.apache.ignite</groupId>
-             <artifactId>ignite-hibernate</artifactId>
-             <version>${ignite.version}</version>
-         </dependency>-->
-
-      <!--  <dependency>
-            <groupId>org.apache.ignite</groupId>
-            <artifactId>ignite-schedule</artifactId>
-            <version>${ignite.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.ignite</groupId>
-            <artifactId>ignite-geospatial</artifactId>
-            <version>${ignite.version}</version>
-        </dependency>-->
         <dependency>
             <groupId>org.apache.ignite</groupId>
             <artifactId>ignite-core</artifactId>
@@ -120,18 +96,10 @@
             <artifactId>commons-pool2</artifactId>
             <version>2.4.2</version>
         </dependency>
-
-
-        <!--<dependency>
-            <groupId>org.gridgain</groupId>
-            <artifactId>ignite-shmem</artifactId>
-            <version>1.0.0</version>
-            <scope>test</scope>
-        </dependency>-->
     </dependencies>
 
     <build>
-        <plugins>
+        <!--<plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -147,39 +115,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>org.sample.StreamWords</mainClass>
-                            <addClasspath>true</addClasspath>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>-->
-          <!--  <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.sample.StreamWords</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
-        </plugins>
+        </plugins>-->
     </build>
 </project>
