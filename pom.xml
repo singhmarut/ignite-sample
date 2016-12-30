@@ -10,12 +10,20 @@
     <properties>
         <ignite.version>1.8.0</ignite.version>
     </properties>
+  <!--  <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.2.RELEASE</version>
+        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;
+    </parent>-->
     <modules>
-        <module>akka-sample</module>
+       <!-- <module>akka-sample</module>
         <module>page-rank</module>
         <module>kinesis-sample</module>
-        <module>ignite-sample</module>
+        <module>ignite-sample</module>-->
         <module>cassandra-sample</module>
+        <module>camel-sample</module>
+        <module>phoneix-sample</module>
     </modules>
   <!--  <parent>
         <groupId>org.springframework.boot</groupId>
@@ -89,7 +97,6 @@
             <artifactId>spring-data-redis</artifactId>
             <version>1.7.5.RELEASE</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -99,6 +106,23 @@
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <!-- To use the plugin goals in your POM or parent POM -->
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
+        </plugins>
         <!--<plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
