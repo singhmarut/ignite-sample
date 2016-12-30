@@ -51,10 +51,11 @@ public class MyRouteTest  extends AbstractJUnit4SpringContextTests {
             public void configure() throws Exception {
                 // mock only log endpoints
                 interceptSendToEndpoint("http://localhost:8080/abc").setBody(simple("Hello World singapore"));
-                mockEndpoints("http*");
+                mockEndpoints("http:*");
             }
         });
 
         template.sendBody("direct:foo", "Hello World");
+        MockEndpoint.assertIsSatisfied(template.getCamelContext());
     }
 }
